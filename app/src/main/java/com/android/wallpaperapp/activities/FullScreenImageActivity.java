@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +32,7 @@ public class FullScreenImageActivity extends AppCompatActivity {
 
     ImageView full_screen_image;
     String imageurl;
-    Button btnsetwallpaper, btndownload = (Button) findViewById(R.id.btndownload), btnShare;
+    Button btnsetwallpaper, btndownload,btnShare;
     private static final int REQUEST_WRITE_PERMISSION = 1;
     private InterstitialAd interstitial;
 
@@ -49,13 +50,13 @@ public class FullScreenImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full_screen_iamge);
         full_screen_image = findViewById(R.id.full_screen_image);
         btnsetwallpaper = findViewById(R.id.btnsetwallpaper);
+        btndownload = findViewById(R.id.btndownload);
         btnShare = findViewById(R.id.btnshare);
-
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         Intent intent = getIntent();
         imageurl = intent.getStringExtra("imageurl");
-
         Picasso.with(FullScreenImageActivity.this).load(imageurl).placeholder(R.drawable.loading_image).into(full_screen_image);
-
         btndownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +77,7 @@ public class FullScreenImageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //loadAds();
                 shareImage(imageurl);
+                //requestPermission();
             }
         });
     }
